@@ -12,7 +12,8 @@ from langchain_text_splitters import CharacterTextSplitter
 from langgraph.constants import Send
 from langgraph.graph import END, START, StateGraph
 from langchain_community.document_loaders import PyPDFLoader
-from openai import base_url
+import operator
+from typing import Annotated, List, Literal, TypedDict
 
 from constants import LOG_FILE, OLLAMA_BASE_URL
 from logging_setup import setup_logger
@@ -21,12 +22,14 @@ logger = logging.getLogger("gradio_log")
 
 class OverallState(TypedDict):
     contents: List[str]
-    summaries: List[str]
+    summaries: Annotated[list, operator.add]
     collapsed_summaries: List[Document]
     final_summary: str
 
+
 class SummaryState(TypedDict):
     content: str
+
 
 class State(TypedDict):
     contents: List[str]
@@ -201,4 +204,6 @@ async def iterative_refinement_summarization(docs, llm):
             logger.debug(summary)
             Path(LOG_FILE).touch()
 
+    logger.info("Process has been completed.")
+    Path(LOG_FILE).touch()
     return summary, "Process has been completed."

@@ -11,7 +11,7 @@ logger = setup_logger(LOG_FILE)
 
 # Create Gradio App
 with gr.Blocks() as demo:
-    gr.Markdown("### PDF Summarization Tool")
+    gr.Markdown("### [PDF Summarization Tool](https://github.com/samfallahian/large_pdf_summarization)")
     with gr.Row():
         pdf_upload = gr.File(
             label="Upload PDF File", type="filepath", height=100, file_types=['.pdf']
