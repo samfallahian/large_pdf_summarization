@@ -137,6 +137,8 @@ async def map_reduce_summarization(split_docs, llm, max_token):
         if "generate_final_summary" in step:
             summary = step["generate_final_summary"]["final_summary"]
 
+    logger.info("Process has been completed.")
+    Path(LOG_FILE).touch()
     return summary, "Process has been completed."
 
 async def iterative_refinement_summarization(docs, llm):
