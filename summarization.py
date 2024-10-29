@@ -14,6 +14,9 @@ from langgraph.graph import END, START, StateGraph
 from langchain_community.document_loaders import PyPDFLoader
 import operator
 from typing import Annotated, List, Literal, TypedDict
+from IPython.display import Image
+from PIL import Image
+import io
 
 from constants import LOG_FILE, OLLAMA_BASE_URL
 from logging_setup import setup_logger
@@ -54,11 +57,11 @@ async def summarize_pdf(pdf_file, summarization_type, ollama_model, chunk_size, 
     Path(LOG_FILE).touch()
 
     if summarization_type == "Map-Reduce":
-        summary, status = await map_reduce_summarization(split_docs, llm, max_token)
+        summary, status, workflow = await map_reduce_summarization(split_docs, llm, max_token)
     else:
-        summary, status = await iterative_refinement_summarization(split_docs, llm)
+        summary, status, workflow = await iterative_refinement_summarization(split_docs, llm)
 
-    return summary, status
+    return summary, status, workflow
 
 async def map_reduce_summarization(split_docs, llm, max_token):
     logger.info("Starting summarization using Map-Reduce ...")
@@ -127,6 +130,8 @@ async def map_reduce_summarization(split_docs, llm, max_token):
 
     app = graph.compile()
 
+    workflow = Image.open(io.BytesIO(app.get_graph().draw_mermaid_png()))
+
     summary = ""
     async for step in app.astream(
         {"contents": [doc.page_content for doc in split_docs]},
@@ -139,7 +144,7 @@ async def map_reduce_summarization(split_docs, llm, max_token):
 
     logger.info("Process has been completed.")
     Path(LOG_FILE).touch()
-    return summary, "Process has been completed."
+    return summary, "Process has been completed.", workflow
 
 async def iterative_refinement_summarization(docs, llm):
     logger.info("Starting summarization using Iterative Refinement ...")
@@ -194,6 +199,8 @@ async def iterative_refinement_summarization(docs, llm):
     graph.add_conditional_edges("refine_summary", should_refine)
 
     app = graph.compile()
+    # workflow = Image(app.get_graph().draw_mermaid_png())
+    workflow = Image.open(io.BytesIO(app.get_graph().draw_mermaid_png()))
 
     summary = ""
     async for step in app.astream(
@@ -208,4 +215,4 @@ async def iterative_refinement_summarization(docs, llm):
 
     logger.info("Process has been completed.")
     Path(LOG_FILE).touch()
-    return summary, "Process has been completed."
+    return summary, "Process has been completed.", workflow
