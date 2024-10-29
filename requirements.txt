@@ -1,0 +1,17 @@
+transformers
+pandas
+langchain
+langchain-community
+python-dotenv
+langchain_ollama
+langchain-openai
+tiktoken
+langgraph
+beautifulsoup4
+tqdm
+ipywidgets
+widgetsnbextension
+pandas-profiling
+pypdf
+gradio
+gradio_log
