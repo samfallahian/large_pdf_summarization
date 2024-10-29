@@ -43,7 +43,3 @@ You can set your local server connection values and other constants in constants
 2. **Run the application and follow the link:**  
    ```bash
    python main.py
-   
-3. **Run the application:**  
-   ```bash
-   python main.py
