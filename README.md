@@ -28,7 +28,6 @@ This project provides an efficient solution for summarizing large PDF files usin
 3. **Install Requirements**
    ```bash
    pip install -r requirements.txt
-   
 
 ## Configuration
 
