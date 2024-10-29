@@ -13,18 +13,22 @@ This project provides an efficient solution for summarizing large PDF files usin
 1. **Install Ollama**  
    - Follow instructions at [Ollama](https://ollama.com/)
 
-2. **Install PyTorch**  
-   - Refer to [Pytorch](https://pytorch.org/get-started/locally/)
-
-3. **Clone the Repository**
+2. **Clone the Repository**
    ```bash
    git clone git@github.com:samfallahian/large_pdf_summarization.git
    
-4. **Set Up Python Environment**
+3. **Set Up Python Environment**
    ```bash
    conda create --name large_pdf_summarization python=3.11
    conda activate large_pdf_summarization
+   
+4. **Install PyTorch in venv**  
+   - Refer to [Pytorch](https://pytorch.org/get-started/locally/)
+
+3. **Install Requirements**
+   ```bash
    pip install -r requirements.txt
+   
 
 ## Configuration
 
